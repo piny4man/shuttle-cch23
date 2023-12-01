@@ -4,7 +4,7 @@ Shuttle's Christmas Code Hunt, inspired by Advent of Code, invites you to solve 
 
 ## Progress
 - [x] Setup and bonus -1
-- [ ] Day 1
+- [x] Day 1
 - [ ] Day 4
 - [ ] Day 5
 - [ ] Day 6
