@@ -23,7 +23,7 @@ async fn packed_recalibration(Path(num_list): Path<String>) -> String {
         }
     }
 
-    if numbers.len() >= 1 && numbers.len() <= 20 {
+    if !numbers.is_empty() && numbers.len() <= 20 {
         let result: u64 = numbers.iter().fold(0, |acc, &num| acc ^ num).pow(3);
         result.to_string()
     } else {
