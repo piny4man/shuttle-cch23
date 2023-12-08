@@ -1,4 +1,16 @@
-use axum::{extract::Path, http::StatusCode, routing::get, Router};
+use axum::{
+    extract::{Json, Path},
+    http::StatusCode,
+    routing::{get, post},
+    Router,
+};
+use serde::Deserialize;
+
+#[derive(Deserialize)]
+struct Reindeer {
+    name: String,
+    strength: i32,
+}
 
 async fn hello_world() -> &'static str {
     "Hello, world!"
@@ -32,12 +44,23 @@ async fn packed_recalibration(Path(num_list): Path<String>) -> String {
     }
 }
 
+async fn calculate_reeindeers_strength(Json(reindeers): Json<Vec<Reindeer>>) -> String {
+    let total_strength: i32 = reindeers.iter().map(|r| r.strength).sum();
+    total_strength.to_string()
+}
+
+async fn reindeers_contest_results() -> &'static str {
+    "The winner is YOU"
+}
+
 #[shuttle_runtime::main]
 async fn main() -> shuttle_axum::ShuttleAxum {
     let router = Router::new()
         .route("/", get(hello_world))
         .route("/-1/error", get(error_handler))
-        .route("/1/*num_list", get(packed_recalibration));
+        .route("/1/*num_list", get(packed_recalibration))
+        .route("/4/strength", post(calculate_reeindeers_strength))
+        .route("/4/contest", post(reindeers_contest_results));
 
     Ok(router.into())
 }
